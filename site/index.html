@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCP Kit - Build MCP Servers in Minutes</title>
+  <meta name="description" content="Production-ready MCP server templates. 5 battle-tested TypeScript templates for the Model Context Protocol. Ship your MCP integration today.">
+  <meta property="og:title" content="MCP Kit - Build MCP Servers in Minutes">
+  <meta property="og:description" content="5 production-ready MCP server templates for TypeScript. Stop reading docs, start shipping.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔌</text></svg>">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0a0a;
+      --bg-card: #111111;
+      --bg-card-hover: #1a1a1a;
+      --border: #222222;
+      --text: #e5e5e5;
+      --text-dim: #888888;
+      --accent: #6366f1;
+      --accent-light: #818cf8;
+      --accent-bg: rgba(99, 102, 241, 0.1);
+      --green: #22c55e;
+      --green-bg: rgba(34, 197, 94, 0.1);
+      --orange: #f97316;
+      --orange-bg: rgba(249, 115, 22, 0.1);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1152px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Nav */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10, 10, 10, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 18px;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 24px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-primary:hover { background: var(--accent-light); transform: translateY(-1px); }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 24px;
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--text-dim); background: var(--bg-card); }
+
+    /* Hero */
+    .hero {
+      padding: 120px 0 80px;
+      text-align: center;
+      position: relative;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      background: var(--accent-bg);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: 999px;
+      font-size: 13px;
+      color: var(--accent-light);
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(40px, 6vw, 72px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+    }
+    .hero h1 .gradient {
+      background: linear-gradient(135deg, #6366f1 0%, #a78bfa 50%, #6366f1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 20px;
+      color: var(--text-dim);
+      max-width: 600px;
+      margin: 0 auto 40px;
+    }
+    .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    /* Stats */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      padding: 48px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 80px;
+    }
+    .stat { text-align: center; }
+    .stat-value { font-size: 36px; font-weight: 800; color: var(--accent-light); }
+    .stat-label { font-size: 14px; color: var(--text-dim); margin-top: 4px; }
+
+    /* Templates Grid */
+    .section-title {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .section-title h2 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .section-title p {
+      color: var(--text-dim);
+      font-size: 18px;
+    }
+    .templates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-bottom: 96px;
+    }
+    .template-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px;
+      transition: all 0.3s;
+    }
+    .template-card:hover {
+      border-color: var(--accent);
+      background: var(--bg-card-hover);
+      transform: translateY(-4px);
+    }
+    .template-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .template-card h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .template-card p {
+      color: var(--text-dim);
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .template-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tag {
+      padding: 4px 10px;
+      background: var(--bg);
+      border-radius: 6px;
+      font-size: 12px;
+      color: var(--text-dim);
+      font-family: "SF Mono", Monaco, monospace;
+    }
+
+    /* Code Preview */
+    .code-section {
+      margin-bottom: 96px;
+    }
+    .code-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .code-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .code-dot { width: 12px; height: 12px; border-radius: 50%; }
+    .code-dot.red { background: #ef4444; }
+    .code-dot.yellow { background: #eab308; }
+    .code-dot.green { background: #22c55e; }
+    .code-filename {
+      margin-left: 12px;
+      font-size: 13px;
+      color: var(--text-dim);
+      font-family: monospace;
+    }
+    .code-content {
+      padding: 20px;
+      font-family: "SF Mono", Monaco, "Cascadia Code", monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      overflow-x: auto;
+      color: #d4d4d4;
+    }
+    .code-content .keyword { color: #569cd6; }
+    .code-content .string { color: #ce9178; }
+    .code-content .func { color: #dcdcaa; }
+    .code-content .comment { color: #6a9955; }
+    .code-content .type { color: #4ec9b0; }
+
+    /* Features */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 32px;
+      margin-bottom: 96px;
+    }
+    .feature {
+      text-align: center;
+      padding: 32px 24px;
+    }
+    .feature-icon {
+      font-size: 32px;
+      margin-bottom: 16px;
+    }
+    .feature h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .feature p {
+      color: var(--text-dim);
+      font-size: 14px;
+    }
+
+    /* CTA */
+    .cta {
+      text-align: center;
+      padding: 96px 0;
+      border-top: 1px solid var(--border);
+    }
+    .cta h2 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .cta p {
+      color: var(--text-dim);
+      font-size: 18px;
+      margin-bottom: 32px;
+    }
+    .price-tag {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+    .price-tag .amount {
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--accent-light);
+    }
+    .price-tag .period {
+      color: var(--text-dim);
+      font-size: 16px;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 48px 0;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 14px;
+    }
+    footer a { color: var(--accent-light); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 768px) {
+      .hero { padding: 80px 0 60px; }
+      .stats { flex-direction: column; gap: 24px; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <a href="#" class="nav-logo">🔌 MCP <span>Kit</span></a>
+      <div class="nav-links">
+        <a href="#templates">Templates</a>
+        <a href="#code">Code</a>
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="https://zeoland.gumroad.com/l/mcpkit" class="btn-primary">Get MCP Kit →</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero container">
+    <div class="badge">✨ New — Zero competition on Gumroad</div>
+    <h1>Build MCP Servers<br><span class="gradient">in Minutes</span></h1>
+    <p>5 production-ready TypeScript templates for the Model Context Protocol. Stop reading docs, start shipping.</p>
+    <div class="hero-buttons">
+      <a href="https://zeoland.gumroad.com/l/mcpkit" class="btn-primary">Get MCP Kit — $49 →</a>
+      <a href="#templates" class="btn-secondary">View Templates ↓</a>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-value">5</div>
+        <div class="stat-label">Server Templates</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">20+</div>
+        <div class="stat-label">MCP Tools</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">100%</div>
+        <div class="stat-label">TypeScript</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">0</div>
+        <div class="stat-label">Dependencies*</div>
+      </div>
+    </div>
+  </div>
+
+  <section id="templates" class="container">
+    <div class="section-title">
+      <h2>Pick Your Template</h2>
+      <p>Each template is a complete, runnable MCP server. Copy, customize, ship.</p>
+    </div>
+    <div class="templates-grid">
+      <div class="template-card">
+        <div class="template-icon" style="background: var(--accent-bg);">⚡</div>
+        <h3>Starter</h3>
+        <p>The minimal MCP server. Two example tools, clean structure, fully commented. Your starting point.</p>
+        <div class="template-tags">
+          <span class="tag">2 tools</span>
+          <span class="tag">greet</span>
+          <span class="tag">calculate</span>
+        </div>
+      </div>
+      <div class="template-card">
+        <div class="template-icon" style="background: var(--green-bg);">📁</div>
+        <h3>File Manager</h3>
+        <p>Read, write, search, and list files. Path sandboxing and security built in. Perfect for code assistants.</p>
+        <div class="template-tags">
+          <span class="tag">5 tools</span>
+          <span class="tag">read_file</span>
+          <span class="tag">write_file</span>
+          <span class="tag">search</span>
+        </div>
+      </div>
+      <div class="template-card">
+        <div class="template-icon" style="background: var(--orange-bg);">🗄️</div>
+        <h3>Database (SQLite)</h3>
+        <p>Query databases with natural language. Schema inspection, read/write separation, parameterized queries.</p>
+        <div class="template-tags">
+          <span class="tag">4 tools</span>
+          <span class="tag">query</span>
+          <span class="tag">execute</span>
+          <span class="tag">schema</span>
+        </div>
+      </div>
+      <div class="template-card">
+        <div class="template-icon" style="background: rgba(236, 72, 153, 0.1);">🌐</div>
+        <h3>API Gateway</h3>
+        <p>Wrap any REST API as MCP tools. Dynamic registration, auth handling, multi-API support.</p>
+        <div class="template-tags">
+          <span class="tag">4 tools</span>
+          <span class="tag">register</span>
+          <span class="tag">call</span>
+          <span class="tag">test</span>
+        </div>
+      </div>
+      <div class="template-card">
+        <div class="template-icon" style="background: rgba(6, 182, 212, 0.1);">🔍</div>
+        <h3>Web Scraper</h3>
+        <p>Fetch pages, extract text, get metadata, pull links. No browser dependencies — pure Node.js fetch.</p>
+        <div class="template-tags">
+          <span class="tag">4 tools</span>
+          <span class="tag">fetch</span>
+          <span class="tag">metadata</span>
+          <span class="tag">links</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="code" class="code-section container">
+    <div class="section-title">
+      <h2>See the Code</h2>
+      <p>Clean, documented TypeScript. Every line explained.</p>
+    </div>
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dot red"></div>
+        <div class="code-dot yellow"></div>
+        <div class="code-dot green"></div>
+        <span class="code-filename">templates/starter/src/index.ts</span>
+      </div>
+      <div class="code-content">
+<pre><span class="keyword">import</span> { McpServer } <span class="keyword">from</span> <span class="string">"@modelcontextprotocol/sdk/server/mcp.js"</span>;
+<span class="keyword">import</span> { StdioServerTransport } <span class="keyword">from</span> <span class="string">"@modelcontextprotocol/sdk/server/stdio.js"</span>;
+<span class="keyword">import</span> { z } <span class="keyword">from</span> <span class="string">"zod"</span>;
+
+<span class="comment">// Create your MCP server</span>
+<span class="keyword">const</span> <span class="type">server</span> = <span class="keyword">new</span> <span class="func">McpServer</span>({
+  name: <span class="string">"my-server"</span>,
+  version: <span class="string">"1.0.0"</span>,
+});
+
+<span class="comment">// Register a tool — this is what the AI sees and can call</span>
+<span class="type">server</span>.<span class="func">tool</span>(
+  <span class="string">"greet"</span>,                          <span class="comment">// tool name</span>
+  <span class="string">"Generate a greeting"</span>,             <span class="comment">// description for AI</span>
+  {
+    name: z.<span class="func">string</span>(),                 <span class="comment">// input schema</span>
+    language: z.<span class="func">enum</span>([<span class="string">"en"</span>,<span class="string">"es"</span>,<span class="string">"fr"</span>])
+      .<span class="func">default</span>(<span class="string">"en"</span>),
+  },
+  <span class="keyword">async</span> ({ name, language }) <span class="keyword">=></span> {
+    <span class="keyword">return</span> {
+      content: [{ type: <span class="string">"text"</span>, text: <span class="string">`Hello, ${name}!`</span> }]
+    };
+  }
+);
+
+<span class="comment">// Start the server</span>
+<span class="keyword">const</span> <span class="type">transport</span> = <span class="keyword">new</span> <span class="func">StdioServerTransport</span>();
+<span class="keyword">await</span> <span class="type">server</span>.<span class="func">connect</span>(transport);</pre>
+      </div>
+    </div>
+  </section>
+
+  <section id="features" class="container">
+    <div class="section-title">
+      <h2>Why MCP Kit?</h2>
+      <p>Built for developers who ship, not read docs.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature">
+        <div class="feature-icon">🚀</div>
+        <h3>Copy-Paste Ready</h3>
+        <p>npm install && npm start. Each template runs out of the box.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🔒</div>
+        <h3>Security First</h3>
+        <p>Path sandboxing, query validation, auth handling. Production patterns baked in.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📘</div>
+        <h3>Fully Documented</h3>
+        <p>Every file has inline comments explaining the MCP protocol. Learn while you build.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🎯</div>
+        <h3>Type-Safe</h3>
+        <p>Full TypeScript with Zod validation. Catch errors before your users do.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <h3>Zero Config</h3>
+        <p>Works with Claude Desktop, Cursor, Windsurf, and any MCP client. Stdio transport by default.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🔄</div>
+        <h3>MIT License</h3>
+        <p>Use personally for free. Commercial license available for teams and products.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" class="cta container">
+    <h2>Ship Your MCP Server Today</h2>
+    <p>5 templates, 20+ tools, unlimited projects.</p>
+    <div class="price-tag">
+      <span class="amount">$49</span>
+      <span class="period">one-time purchase</span>
+    </div>
+    <br>
+    <a href="https://zeoland.gumroad.com/l/mcpkit" class="btn-primary" style="font-size: 18px; padding: 16px 40px;">Get MCP Kit on Gumroad →</a>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>MCP Kit by <a href="https://github.com/tyr1105">zeoland</a> · Built with TypeScript + MCP SDK · <a href="https://github.com/tyr1105/mcp-kit">GitHub</a></p>
+    </div>
+  </footer>
+</body>
+</html>
